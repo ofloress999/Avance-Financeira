@@ -336,7 +336,7 @@ function App() {
         <a className="brand interactive" href="#inicio" data-cursor="INÍCIO">
           <img src="/logo-avance-financeira.png" alt="Avance Financeira" />
         </a>
-        <a className="header-cta interactive" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+        <a className="header-cta interactive" href={HIPERBAN_URL} target="_blank" rel="noreferrer">
           SIMULAR AGORA <Arrow />
         </a>
       </header>
@@ -358,7 +358,7 @@ function App() {
                 planos em possibilidades reais.
               </p>
               <div className="hero-actions">
-                <MagneticLink href={WHATSAPP_URL} className="button button-gold">
+                <MagneticLink href={HIPERBAN_URL} className="button button-gold">
                   COMEÇAR UMA SIMULAÇÃO <Arrow />
                 </MagneticLink>
                 <TextLink href="#sobre">CONHEÇA A AVANCE</TextLink>
@@ -579,7 +579,7 @@ function App() {
           <div className="orbit orbit-two" />
           <p className="reveal">TALVEZ SEU PLANO ESTEJA MAIS PERTO DO QUE PARECE.</p>
           <h2 className="reveal">DESCUBRA<br />SUAS<br /><em>POSSIBILIDADES.</em></h2>
-          <MagneticLink href={WHATSAPP_URL} className="circle-cta">
+          <MagneticLink href={HIPERBAN_URL} className="circle-cta">
             <span>SIMULAR</span><strong>AGORA</strong><Arrow />
           </MagneticLink>
         </section>

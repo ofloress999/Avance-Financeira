@@ -87,9 +87,8 @@ button { cursor: pointer; }
   backdrop-filter: blur(18px);
   border-color: var(--line-light);
 }
-.brand { display: flex; flex-direction: column; line-height: .86; letter-spacing: -.04em; }
-.brand strong { font: 800 20px/1 "Manrope", sans-serif; }
-.brand span { margin-top: 6px; color: var(--gold); font-size: 7px; letter-spacing: .42em; }
+.brand { display: block; width: clamp(110px, 11vw, 170px); }
+.brand img { display: block; width: 100%; height: auto; }
 .site-header nav { display: flex; gap: clamp(14px, 1.7vw, 30px); }
 .site-header nav a {
   position: relative;
@@ -319,8 +318,12 @@ em { color: var(--gold); font-style: normal; }
 .calculator-title > p:last-child { grid-column: 2; color: var(--steel); font-size: 18px; }
 .simulation { width: min(1100px, 100%); margin: 12vh auto 0; padding: 5vw; border: 1px solid var(--line-light); background: var(--graphite); }
 .property-value { text-align: center; }
-.property-value span, .simulation-results span, .bar-labels { color: var(--steel); font-size: 9px; letter-spacing: .2em; }
-.property-value strong { display: block; margin-top: 18px; font: 400 clamp(48px, 7vw, 104px)/1 "Manrope", sans-serif; letter-spacing: -.07em; }
+.property-value label, .simulation-results span, .bar-labels { color: var(--steel); font-size: 9px; letter-spacing: .2em; }
+.property-input { display: flex; justify-content: center; align-items: baseline; gap: 5px; margin-top: 18px; }
+.property-input span, .property-input input { color: var(--ivory); font: 400 clamp(48px, 7vw, 104px)/1 "Manrope", sans-serif; letter-spacing: -.07em; }
+.property-input input { padding: 0; border: 0; border-bottom: 1px solid transparent; outline: 0; background: transparent; text-align: left; }
+.property-input input:focus { border-bottom-color: var(--gold); }
+.property-input input::-webkit-inner-spin-button, .property-input input::-webkit-outer-spin-button { appearance: none; margin: 0; }
 .percent-control { display: grid; grid-template-columns: repeat(3,1fr); margin: 5vh 0; border-block: 1px solid var(--line-light); }
 .percent-control button { padding: 26px 10px; border: 0; border-right: 1px solid var(--line-light); color: var(--steel); background: none; font: 500 19px "Manrope"; }
 .percent-control button:last-child { border-right: 0; }
@@ -467,9 +470,8 @@ em { color: var(--gold); font-style: normal; }
 
 footer { padding: 7vw 3.2vw 0; background: var(--obsidian); overflow: hidden; }
 .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 4vw; padding-bottom: 7vw; }
-.footer-brand { display: flex; flex-direction: column; line-height: .8; }
-.footer-brand strong { font: 800 clamp(40px, 6vw, 90px)/.8 "Manrope"; letter-spacing: -.075em; }
-.footer-brand span { margin-top: 18px; color: var(--gold); font-size: 9px; letter-spacing: .48em; }
+.footer-brand { width: clamp(180px, 24vw, 360px); }
+.footer-brand img { display: block; width: 100%; height: auto; }
 .footer-top > p { color: var(--steel); line-height: 1.7; }
 .footer-nav { display: grid; grid-template-columns: 1fr 1fr; align-content: start; gap: 14px 32px; }
 .footer-nav a { position: relative; width: max-content; color: rgba(243,240,233,.62); font-size: 11px; }

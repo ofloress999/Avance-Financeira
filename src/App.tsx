@@ -138,6 +138,7 @@ function MagneticLink({
 function App() {
   const root = useRef<HTMLDivElement>(null);
   const [financePercent, setFinancePercent] = useState(80);
+  const [propertyValue, setPropertyValue] = useState(300000);
   const [headerScrolled, setHeaderScrolled] = useState(false);
 
   useEffect(() => {
@@ -312,11 +313,19 @@ function App() {
     };
   }, []);
 
-  const propertyValue = 300000;
   const financed = propertyValue * (financePercent / 100);
   const downPayment = propertyValue - financed;
   const money = (value: number) =>
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
+  const formattedPropertyValue = propertyValue
+    ? new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(propertyValue)
+    : "";
+  const propertyValueWidth = `${Math.max(formattedPropertyValue.length, 1) + 0.35}ch`;
+
+  const handlePropertyValueChange = (value: string) => {
+    const digits = value.replace(/\D/g, "").replace(/^0+/, "");
+    setPropertyValue(digits ? Number(digits) : 0);
+  };
 
   return (
     <div ref={root}>
@@ -325,8 +334,7 @@ function App() {
 
       <header className={`site-header ${headerScrolled ? "is-scrolled" : ""}`}>
         <a className="brand interactive" href="#inicio" data-cursor="INÍCIO">
-          <strong>AVANCE</strong>
-          <span>FINANCEIRA</span>
+          <img src="/logo-avance-financeira.png" alt="Avance Financeira" />
         </a>
         <a className="header-cta interactive" href={SIMULATION_URL} target="_blank" rel="noreferrer">
           SIMULAR AGORA <Arrow />
@@ -413,8 +421,19 @@ function App() {
           </div>
           <div className="simulation reveal">
             <div className="property-value">
-              <span>VALOR DO IMÓVEL</span>
-              <strong>{money(propertyValue)}</strong>
+              <label htmlFor="property-value">VALOR DO IMÓVEL</label>
+              <div className="property-input">
+                <span>R$</span>
+                <input
+                  id="property-value"
+                  type="text"
+                  inputMode="numeric"
+                  value={formattedPropertyValue}
+                  onChange={(event) => handlePropertyValueChange(event.target.value)}
+                  aria-label="Valor do imóvel em reais"
+                  style={{ width: propertyValueWidth }}
+                />
+              </div>
             </div>
             <div className="percent-control" role="group" aria-label="Percentual financiado">
               {[70, 80, 90].map((percent) => (
@@ -429,8 +448,8 @@ function App() {
               ))}
             </div>
             <div className="simulation-results">
-              <div><span>FINANCIAMENTO</span><strong key={`f-${financePercent}`}>{money(financed)}</strong></div>
-              <div><span>ENTRADA</span><strong key={`e-${financePercent}`}>{money(downPayment)}</strong></div>
+              <div><span>FINANCIAMENTO</span><strong key={`f-${propertyValue}-${financePercent}`}>{money(financed)}</strong></div>
+              <div><span>ENTRADA</span><strong key={`e-${propertyValue}-${financePercent}`}>{money(downPayment)}</strong></div>
             </div>
             <div className="finance-bar">
               <div className="bar-labels"><span>FINANCIADO · {financePercent}%</span><span>ENTRADA · {100 - financePercent}%</span></div>
@@ -585,7 +604,9 @@ function App() {
 
       <footer>
         <div className="footer-top">
-          <div className="footer-brand"><strong>AVANCE</strong><span>FINANCEIRA</span></div>
+          <div className="footer-brand">
+            <img src="/logo-avance-financeira.png" alt="Avance Financeira" />
+          </div>
           <p>Financiamento imobiliário.<br />Veículos. Crédito. Seguros.</p>
           <div className="footer-nav">
             {navItems.map(([label, href]) => <a key={label} href={href}>{label}</a>)}

@@ -305,6 +305,8 @@ em { color: var(--gold); font-style: normal; }
 .world-copy h3 span { display: block; }
 .world-copy > div { position: relative; z-index: 2; display: flex; align-items: end; gap: 5vw; max-width: 640px; }
 .world-copy > div p { max-width: 360px; margin-bottom: 0; color: rgba(243,240,233,.66); font-size: 13px; line-height: 1.6; }
+.world-partner-link { color: inherit; border-bottom: 1px solid rgba(205,165,106,.55); transition: color .25s ease, border-color .25s ease; }
+.world-partner-link:hover, .world-partner-link:focus-visible { color: var(--gold); border-bottom-color: var(--gold); }
 
 .calculator { position: relative; padding: 12vw 5vw; background: var(--obsidian); }
 .calculator::before { content: ""; position: absolute; top: 0; left: 5vw; right: 5vw; height: 1px; background: var(--line-light); }
@@ -324,10 +326,16 @@ em { color: var(--gold); font-style: normal; }
 .property-input input { padding: 0; border: 0; border-bottom: 1px solid transparent; outline: 0; background: transparent; text-align: left; }
 .property-input input:focus { border-bottom-color: var(--gold); }
 .property-input input::-webkit-inner-spin-button, .property-input input::-webkit-outer-spin-button { appearance: none; margin: 0; }
-.percent-control { display: grid; grid-template-columns: repeat(3,1fr); margin: 5vh 0; border-block: 1px solid var(--line-light); }
-.percent-control button { padding: 26px 10px; border: 0; border-right: 1px solid var(--line-light); color: var(--steel); background: none; font: 500 19px "Manrope"; }
-.percent-control button:last-child { border-right: 0; }
-.percent-control button.active { color: var(--obsidian); background: var(--gold); }
+.entry-mode { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 5vh; border: 1px solid var(--line-light); }
+.entry-mode button { padding: 15px 10px; border: 0; border-right: 1px solid var(--line-light); color: var(--steel); background: none; font-size: 9px; letter-spacing: .16em; }
+.entry-mode button:last-child { border-right: 0; }
+.entry-mode button.active { color: var(--obsidian); background: var(--gold); }
+.entry-input-control { margin-bottom: 5vh; padding: 24px 10px; border: 1px solid var(--line-light); border-top: 0; text-align: center; }
+.entry-input-control label { color: var(--steel); font-size: 9px; letter-spacing: .2em; }
+.entry-input-control > div { display: flex; align-items: baseline; justify-content: center; gap: 5px; margin-top: 13px; }
+.entry-input-control span, .entry-input-control input { color: var(--ivory); font: 400 clamp(28px, 4vw, 54px)/1 "Manrope", sans-serif; letter-spacing: -.055em; }
+.entry-input-control input { padding: 0; border: 0; border-bottom: 1px solid transparent; outline: 0; background: transparent; text-align: left; }
+.entry-input-control input:focus { border-bottom-color: var(--gold); }
 .simulation-results { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; }
 .simulation-results > div:last-child { padding-left: 3vw; border-left: 1px solid var(--line-light); }
 .simulation-results strong { display: block; margin-top: 12px; font: 500 clamp(26px, 3.5vw, 54px)/1 "Manrope"; letter-spacing: -.055em; animation: valueIn .45s ease both; }
@@ -588,7 +596,6 @@ footer { padding: 7vw 3.2vw 0; background: var(--obsidian); overflow: hidden; }
   .calculator-title h2 { margin-top: 45px; font-size: 13vw; }
   .simulation { margin-top: 70px; padding: 28px 16px; }
   .property-value strong { font-size: 12vw; }
-  .percent-control { margin: 35px 0; }
   .simulation-results { grid-template-columns: 1fr; gap: 25px; }
   .simulation-results > div:last-child { padding: 25px 0 0; border-left: 0; border-top: 1px solid var(--line-light); }
   .simulation-results strong { font-size: 9vw; }

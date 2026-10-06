@@ -38,6 +38,7 @@ const worlds = [
     copy: "Estratégia para transformar o imóvel ideal em uma decisão financeiramente consciente.",
     image: images.building,
     href: WHATSAPP_URL,
+    hasPartner: true,
   },
   {
     number: "02",
@@ -46,6 +47,7 @@ const worlds = [
     copy: "Condições adequadas ao seu momento para colocar o próximo caminho em movimento.",
     image: images.road,
     href: WHATSAPP_URL,
+    hasPartner: false,
   },
   {
     number: "03",
@@ -54,6 +56,7 @@ const worlds = [
     copy: "Modalidades que acompanham objetivos diferentes, sem perder de vista o seu planejamento.",
     image: images.interior,
     href: WHATSAPP_URL,
+    hasPartner: false,
   },
   {
     number: "04",
@@ -62,6 +65,7 @@ const worlds = [
     copy: "Proteção para os bens e conquistas que fazem parte da sua trajetória.",
     image: images.stairs,
     href: WHATSAPP_URL,
+    hasPartner: false,
   },
 ];
 
@@ -137,8 +141,10 @@ function MagneticLink({
 
 function App() {
   const root = useRef<HTMLDivElement>(null);
-  const [financePercent, setFinancePercent] = useState(80);
   const [propertyValue, setPropertyValue] = useState(300000);
+  const [entryMode, setEntryMode] = useState<"percentage" | "value">("percentage");
+  const [entryPercent, setEntryPercent] = useState(20);
+  const [entryValue, setEntryValue] = useState(60000);
   const [headerScrolled, setHeaderScrolled] = useState(false);
 
   useEffect(() => {
@@ -313,18 +319,47 @@ function App() {
     };
   }, []);
 
-  const financed = propertyValue * (financePercent / 100);
-  const downPayment = propertyValue - financed;
+  const downPayment = entryMode === "percentage"
+    ? propertyValue * (entryPercent / 100)
+    : Math.min(entryValue, propertyValue);
+  const financed = propertyValue - downPayment;
+  const financePercent = propertyValue ? Math.round((financed / propertyValue) * 100) : 0;
+  const calculatedEntryPercent = propertyValue ? Math.round((downPayment / propertyValue) * 100) : 0;
   const money = (value: number) =>
     new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
-  const formattedPropertyValue = propertyValue
-    ? new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(propertyValue)
+  const formatNumber = (value: number) => value
+    ? new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 }).format(value)
     : "";
+  const formattedPropertyValue = formatNumber(propertyValue);
+  const formattedEntryValue = formatNumber(entryValue);
+  const formattedEntryPercent = entryPercent ? String(entryPercent) : "";
   const propertyValueWidth = `${Math.max(formattedPropertyValue.length, 1) + 0.35}ch`;
+  const entryValueWidth = `${Math.max(formattedEntryValue.length, 1) + 0.35}ch`;
+  const entryPercentWidth = `${Math.max(formattedEntryPercent.length, 1) + 0.35}ch`;
 
   const handlePropertyValueChange = (value: string) => {
     const digits = value.replace(/\D/g, "").replace(/^0+/, "");
     setPropertyValue(digits ? Number(digits) : 0);
+  };
+
+  const handleEntryValueChange = (value: string) => {
+    const digits = value.replace(/\D/g, "").replace(/^0+/, "");
+    setEntryValue(digits ? Number(digits) : 0);
+  };
+
+  const handleEntryPercentChange = (value: string) => {
+    const digits = value.replace(/\D/g, "").replace(/^0+/, "");
+    setEntryPercent(digits ? Math.min(100, Number(digits)) : 0);
+  };
+
+  const handleEntryModeChange = (mode: "percentage" | "value") => {
+    if (mode === entryMode) return;
+    if (mode === "value") {
+      setEntryValue(Math.round(downPayment));
+    } else {
+      setEntryPercent(propertyValue ? Math.round((downPayment / propertyValue) * 100) : 0);
+    }
+    setEntryMode(mode);
   };
 
   return (
@@ -404,7 +439,31 @@ function App() {
                   <p>{world.eyebrow}</p>
                   <h3>{world.title.split("\n").map((line) => <span key={line}>{line}</span>)}</h3>
                   <div>
-                    <p>{world.copy}</p>
+                    <p>
+                      {world.hasPartner ? (
+                        <>
+                          Do imóvel ao financiamento, você conta com a gente
+                          <br />
+                          <br />
+                          Nosso diferencial é acompanhar você em todo o processo. Com o apoio do corretor parceiro{" "}
+                          <a
+                            className="world-partner-link interactive"
+                            href="https://www.instagram.com/gabrielimob__/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Gabriel Vinícius
+                          </a>
+                          , ajudamos na escolha de um imóvel que faça sentido para o seu momento e caiba no seu orçamento, enquanto cuidamos de toda a parte do financiamento.
+                          <br />
+                          <br />
+                          Assim, você não precisa lidar sozinho com diferentes bancos, documentos, etapas e decisões. Você conta com orientação, suporte e acompanhamento desde a escolha do imóvel até a assinatura final do contrato.
+                          <br />
+                          <br />
+                          Mais do que fechar um negócio, queremos ajudar você a chegar à sua casa própria com segurança e tranquilidade.
+                        </>
+                      ) : world.copy}
+                    </p>
                     <TextLink href={world.href} external>SAIBA MAIS <Arrow /></TextLink>
                   </div>
                 </div>
@@ -435,24 +494,63 @@ function App() {
                 />
               </div>
             </div>
-            <div className="percent-control" role="group" aria-label="Percentual financiado">
-              {[70, 80, 90].map((percent) => (
-                <button
-                  key={percent}
-                  type="button"
-                  className={financePercent === percent ? "active" : ""}
-                  onClick={() => setFinancePercent(percent)}
-                >
-                  {percent}%
-                </button>
-              ))}
+            <div className="entry-mode" role="group" aria-label="Forma de informar a entrada">
+              <button
+                type="button"
+                className={entryMode === "percentage" ? "active" : ""}
+                aria-pressed={entryMode === "percentage"}
+                onClick={() => handleEntryModeChange("percentage")}
+              >
+                POR PORCENTAGEM
+              </button>
+              <button
+                type="button"
+                className={entryMode === "value" ? "active" : ""}
+                aria-pressed={entryMode === "value"}
+                onClick={() => handleEntryModeChange("value")}
+              >
+                POR VALOR
+              </button>
             </div>
+            {entryMode === "percentage" ? (
+              <div className="entry-input-control">
+                <label htmlFor="entry-percent">PORCENTAGEM DA ENTRADA</label>
+                <div>
+                  <input
+                    id="entry-percent"
+                    type="text"
+                    inputMode="numeric"
+                    value={formattedEntryPercent}
+                    onChange={(event) => handleEntryPercentChange(event.target.value)}
+                    aria-label="Porcentagem da entrada"
+                    style={{ width: entryPercentWidth }}
+                  />
+                  <span>%</span>
+                </div>
+              </div>
+            ) : (
+              <div className="entry-input-control">
+                <label htmlFor="entry-value">VALOR DA ENTRADA</label>
+                <div>
+                  <span>R$</span>
+                  <input
+                    id="entry-value"
+                    type="text"
+                    inputMode="numeric"
+                    value={formattedEntryValue}
+                    onChange={(event) => handleEntryValueChange(event.target.value)}
+                    aria-label="Valor da entrada em reais"
+                    style={{ width: entryValueWidth }}
+                  />
+                </div>
+              </div>
+            )}
             <div className="simulation-results">
-              <div><span>FINANCIAMENTO</span><strong key={`f-${propertyValue}-${financePercent}`}>{money(financed)}</strong></div>
-              <div><span>ENTRADA</span><strong key={`e-${propertyValue}-${financePercent}`}>{money(downPayment)}</strong></div>
+              <div><span>FINANCIAMENTO</span><strong key={`f-${propertyValue}-${entryMode}-${entryPercent}-${entryValue}`}>{money(financed)}</strong></div>
+              <div><span>ENTRADA</span><strong key={`e-${propertyValue}-${entryMode}-${entryPercent}-${entryValue}`}>{money(downPayment)}</strong></div>
             </div>
             <div className="finance-bar">
-              <div className="bar-labels"><span>FINANCIADO · {financePercent}%</span><span>ENTRADA · {100 - financePercent}%</span></div>
+              <div className="bar-labels"><span>FINANCIADO · {financePercent}%</span><span>ENTRADA · {calculatedEntryPercent}%</span></div>
               <div className="bar-track">
                 <span className="bar-financed" style={{ width: `${financePercent}%` }} />
               </div>
@@ -614,13 +712,6 @@ function App() {
             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">Simulação</a>
           </div>
-        </div>
-        <div className="footer-legal">
-          <span>© {new Date().getFullYear()} AVANCE FINANCEIRA</span>
-          <span>CRÉDITO CONSCIENTE. DECISÕES SEGURAS.</span>
-        </div>
-        <div className="footer-word" aria-label="Avance">
-          {"AVANCE".split("").map((letter, i) => <span className="footer-letter" key={i}>{letter}</span>)}
         </div>
       </footer>
     </div>

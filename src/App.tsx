@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SIMULATION_URL =
+const HIPERBAN_URL =
   "https://www.plataformahiperban.com.br/v/avancefinanceira?utm_source=ig&utm_medium=social&utm_content=link_in_bio";
 const WHATSAPP_URL = "https://wa.me/5535991517249";
 const INSTAGRAM_URL = "https://www.instagram.com/avancefinanceira7";
@@ -37,7 +37,7 @@ const worlds = [
     title: "FINANCIAMENTO\nIMOBILIÁRIO",
     copy: "Estratégia para transformar o imóvel ideal em uma decisão financeiramente consciente.",
     image: images.building,
-    href: "#imobiliario",
+    href: WHATSAPP_URL,
   },
   {
     number: "02",
@@ -45,7 +45,7 @@ const worlds = [
     title: "FINANCIAMENTO\nDE VEÍCULOS",
     copy: "Condições adequadas ao seu momento para colocar o próximo caminho em movimento.",
     image: images.road,
-    href: "#veiculos",
+    href: WHATSAPP_URL,
   },
   {
     number: "03",
@@ -53,7 +53,7 @@ const worlds = [
     title: "CRÉDITO\nSOB MEDIDA",
     copy: "Modalidades que acompanham objetivos diferentes, sem perder de vista o seu planejamento.",
     image: images.interior,
-    href: "#credito",
+    href: WHATSAPP_URL,
   },
   {
     number: "04",
@@ -61,7 +61,7 @@ const worlds = [
     title: "SEGUROS",
     copy: "Proteção para os bens e conquistas que fazem parte da sua trajetória.",
     image: images.stairs,
-    href: "#contato",
+    href: WHATSAPP_URL,
   },
 ];
 
@@ -336,7 +336,7 @@ function App() {
         <a className="brand interactive" href="#inicio" data-cursor="INÍCIO">
           <img src="/logo-avance-financeira.png" alt="Avance Financeira" />
         </a>
-        <a className="header-cta interactive" href={SIMULATION_URL} target="_blank" rel="noreferrer">
+        <a className="header-cta interactive" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
           SIMULAR AGORA <Arrow />
         </a>
       </header>
@@ -358,7 +358,7 @@ function App() {
                 planos em possibilidades reais.
               </p>
               <div className="hero-actions">
-                <MagneticLink href={SIMULATION_URL} className="button button-gold">
+                <MagneticLink href={WHATSAPP_URL} className="button button-gold">
                   COMEÇAR UMA SIMULAÇÃO <Arrow />
                 </MagneticLink>
                 <TextLink href="#sobre">CONHEÇA A AVANCE</TextLink>
@@ -405,7 +405,7 @@ function App() {
                   <h3>{world.title.split("\n").map((line) => <span key={line}>{line}</span>)}</h3>
                   <div>
                     <p>{world.copy}</p>
-                    <TextLink href={world.href}>SAIBA MAIS <Arrow /></TextLink>
+                    <TextLink href={world.href} external>SAIBA MAIS <Arrow /></TextLink>
                   </div>
                 </div>
               </article>
@@ -492,7 +492,7 @@ function App() {
               Em determinados casos, o FGTS pode ser utilizado para completar ou reduzir a entrada, desde que o
               comprador e o imóvel atendam às regras aplicáveis.
             </p>
-            <TextLink href="#contato">ENTENDER MINHAS POSSIBILIDADES →</TextLink>
+            <TextLink href={HIPERBAN_URL} external>ENTENDER MINHAS POSSIBILIDADES →</TextLink>
           </div>
         </section>
 
@@ -520,7 +520,7 @@ function App() {
             <div className="vehicles-detail">
               <span>FINANCIAMENTO DE VEÍCULOS</span>
               <p>Encontre possibilidades para financiar seu próximo veículo com condições adequadas ao seu planejamento.</p>
-              <MagneticLink href={SIMULATION_URL} className="button button-outline">
+              <MagneticLink href={WHATSAPP_URL} className="button button-outline">
                 SIMULAR FINANCIAMENTO <Arrow />
               </MagneticLink>
             </div>
@@ -579,7 +579,7 @@ function App() {
           <div className="orbit orbit-two" />
           <p className="reveal">TALVEZ SEU PLANO ESTEJA MAIS PERTO DO QUE PARECE.</p>
           <h2 className="reveal">DESCUBRA<br />SUAS<br /><em>POSSIBILIDADES.</em></h2>
-          <MagneticLink href={SIMULATION_URL} className="circle-cta">
+          <MagneticLink href={WHATSAPP_URL} className="circle-cta">
             <span>SIMULAR</span><strong>AGORA</strong><Arrow />
           </MagneticLink>
         </section>
@@ -612,7 +612,7 @@ function App() {
             {navItems.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
             <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">Instagram</a>
             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
-            <a href={SIMULATION_URL} target="_blank" rel="noreferrer">Simulação</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">Simulação</a>
           </div>
         </div>
         <div className="footer-legal">

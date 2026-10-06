@@ -139,7 +139,6 @@ function App() {
   const root = useRef<HTMLDivElement>(null);
   const [financePercent, setFinancePercent] = useState(80);
   const [headerScrolled, setHeaderScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setHeaderScrolled(window.scrollY > 40);
@@ -311,7 +310,7 @@ function App() {
         element.removeEventListener("mouseleave", leave);
       });
     };
-  }, [menuOpen]);
+  }, []);
 
   const propertyValue = 300000;
   const financed = propertyValue * (financePercent / 100);
@@ -329,26 +328,9 @@ function App() {
           <strong>AVANCE</strong>
           <span>FINANCEIRA</span>
         </a>
-        <nav className={menuOpen ? "is-open" : ""} aria-label="Navegação principal">
-          {navItems.map(([label, href]) => (
-            <a key={label} href={href} onClick={() => setMenuOpen(false)}>
-              {label}
-            </a>
-          ))}
-        </nav>
         <a className="header-cta interactive" href={SIMULATION_URL} target="_blank" rel="noreferrer">
           SIMULAR AGORA <Arrow />
         </a>
-        <button
-          className={`menu-toggle ${menuOpen ? "is-open" : ""}`}
-          type="button"
-          aria-label="Abrir menu"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((value) => !value)}
-        >
-          <span />
-          <span />
-        </button>
       </header>
 
       <main>
